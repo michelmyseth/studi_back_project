@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import Header from "./component/header/Header";
+import { Routes, Route } from "react-router-dom";
+import Login from "./component/login/Login";
+import Register from "./component/register/Register";
+import Home from "./component/home/Home";
+import Dashboard from "./component/dashboard/Dashboard";
 
 function App() {
-    const [msg, setMsg] = useState();
-    const handleClick = async () => {
-        const data = await fetch("/api");
-        const json = await data.json();
-        console.log(json);
-        const msg = json.users;
-        setMsg(msg);
-    };
     return (
-        <div>
-            <button onClick={handleClick}>hi</button>
-            <p>{msg}</p>
-            <p>sada</p>
-        </div>
+        <>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+        </>
     );
 }
 
