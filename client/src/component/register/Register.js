@@ -7,6 +7,7 @@ export default function Register() {
         last_name: "",
         email: "",
         password: "",
+        role: "",
     });
 
     const handleChange = (e) => {
@@ -20,6 +21,7 @@ export default function Register() {
             last_name: data.last_name,
             email: data.email,
             password: data.password,
+            role: data.role,
         };
         axios
             .post("http://192.168.64.4/php-auth-api/insert.php", sendData)
@@ -81,6 +83,31 @@ export default function Register() {
                             />
                         </div>
                     </div>
+                    <fieldset>
+                        <legend>inscription en tant que :</legend>
+
+                        <div>
+                            <input
+                                type="radio"
+                                id="candidate"
+                                name="role"
+                                onChange={handleChange}
+                                value={"ROLE_CANDIDATE"}
+                            />
+                            <label for="candidate">candidat</label>
+                        </div>
+
+                        <div>
+                            <input
+                                type="radio"
+                                id="recruit"
+                                name="role"
+                                onChange={handleChange}
+                                value={"ROLE_RECRUIT"}
+                            />
+                            <label for="recruit">recruteur</label>
+                        </div>
+                    </fieldset>
                     <div className="row">
                         <div className="col-md-12 text-center">
                             <input
