@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Header() {
-    let navigate = useNavigate();
     const [auth, setAuth] = useState("");
     const [user, setUser] = useState("");
-    console.log(auth);
+    const [role, setRole] = useState("");
+
     useEffect(() => {
-        var auth = localStorage.getItem("email");
-        var userName = localStorage.getItem("userName");
+        const auth = localStorage.getItem("email");
+        const userName =
+            localStorage.getItem("first_name") +
+            " " +
+            localStorage.getItem("last_name");
+        const role = localStorage.getItem("role");
+
+        if (role === "ROLE_CANDIDATE") {
+            console.log("candidate");
+        }
         if (auth === null) {
-            navigate(`/login`);
+            <Link to="/login" />;
         }
         setAuth(auth);
         setUser(userName);
+        setRole(role);
     }, [user]);
 
     const logOut = () => {
         localStorage.removeItem("email");
         localStorage.clear();
-        navigate(`/login`);
+        <Link to="/login" />;
     };
     return (
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -62,8 +71,8 @@ export default function Header() {
                     </ul>
                     <span class="navbar-text">
                         {" "}
-                        welcom : {user} |{" "}
-                        <Link to="" onClick={logOut}>
+                        welcom : {user} {role} |{" "}
+                        <Link to="/login" onClick={logOut}>
                             log out
                         </Link>
                     </span>

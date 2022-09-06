@@ -5,7 +5,7 @@ export default function Dashboard() {
     const [auth, setAuth] = useState("");
     let navigate = useNavigate();
     useEffect(() => {
-        let auth = localStorage.getItem("email");
+        let auth = localStorage.getItem("first_name");
         setAuth(auth);
         if (auth === null) {
             navigate(`/login`);

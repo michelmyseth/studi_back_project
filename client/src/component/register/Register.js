@@ -24,7 +24,10 @@ export default function Register() {
             role: data.role,
         };
         axios
-            .post("http://192.168.64.4/php-auth-api/insert.php", sendData)
+            .post(
+                "http://192.168.64.4/php-api-with-jwt-auth/auth-file/create-user.php",
+                sendData
+            )
             .then((res) => console.log(res.data))
             .catch((error) => {
                 console.log(error.response);

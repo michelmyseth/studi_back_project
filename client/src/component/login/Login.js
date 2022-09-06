@@ -16,22 +16,49 @@ export default function Login() {
         };
 
         axios
-            .post("http://192.168.64.4/php-auth-api/login.php", sendData)
+            .post(
+                "http://192.168.64.4/php-api-with-jwt-auth/auth-file/login-user.php",
+                sendData
+            )
             .then((result) => {
-                if (result.status === 200) {
-                    console.log(result.data.email);
-
-                    window.localStorage.setItem("email", result.data.email);
-                    window.localStorage.setItem(
-                        "userName",
-                        result.data.first_name + " " + result.data.last_name
-                    );
-
+                if (result.data.status === 1) {
+                    const token = result.data.jwt;
+                    localStorage.setItem("token", result.data.jwt);
+                    axios
+                        .get(
+                            "http://192.168.64.4/php-api-with-jwt-auth/auth-file/read-user.php",
+                            {
+                                headers: {
+                                    Authorization: token,
+                                },
+                            }
+                        )
+                        .then((result) => {
+                            console.log(result.data.message);
+                            localStorage.setItem(
+                                "first_name",
+                                result.data.message.first_name
+                            );
+                            localStorage.setItem(
+                                "last_name",
+                                result.data.message.last_name
+                            );
+                            localStorage.setItem(
+                                "email",
+                                result.data.message.email
+                            );
+                            localStorage.setItem(
+                                "role",
+                                result.data.message.role
+                            );
+                        });
                     console.log("welcom");
                     Navigate(`/dashboard`);
+                } else if (result.data.status === 0) {
+                    console.log("wrong password / email");
                 } else {
-                    console.log(result.status);
-                    console.log("wrong");
+                    console.log(result.data);
+                    console.log("acces refuse");
                 }
             });
     };
